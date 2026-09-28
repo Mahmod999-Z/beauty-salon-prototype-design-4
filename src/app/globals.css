@@ -1,0 +1,205 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #2b2019;
+  --color-paper: #fbf7f2;
+  --color-steel: #e7ddd2;
+  --color-taupe: #c9a57c;
+  --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-source-serif), ui-serif, Georgia, serif;
+}
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  scroll-padding-top: 1rem;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+.bg-ink :focus-visible {
+  outline-color: var(--color-paper);
+}
+
+summary {
+  list-style: none;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+@keyframes werk-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.werk-track {
+  animation: werk-scroll 50s linear infinite;
+}
+
+.werk-track:hover,
+.werk-track:focus-within {
+  animation-play-state: paused;
+}
+
+/* Hero entrance: staggered fade/rise-in for the first paint */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.enter {
+  opacity: 0;
+  animation: fade-up 0.8s ease-out forwards;
+}
+
+.enter-1 {
+  animation-delay: 0.05s;
+}
+
+.enter-2 {
+  animation-delay: 0.2s;
+}
+
+.enter-3 {
+  animation-delay: 0.35s;
+}
+
+.enter-4 {
+  animation-delay: 0.5s;
+}
+
+.enter-5 {
+  animation-delay: 0.65s;
+}
+
+/* Hero video: a very slow, barely-there zoom for cinematic depth */
+@keyframes ken-burns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+.hero-zoom {
+  animation: ken-burns 60s ease-in-out infinite alternate;
+}
+
+/* Price list rows: staggered rise-in the first time a section is seen */
+.row-reveal {
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.5s ease calc(var(--i, 0) * 40ms),
+    transform 0.5s ease calc(var(--i, 0) * 40ms),
+    background-color 0.3s ease;
+}
+
+.rows-visible .row-reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Schedule widget: soft breathing pulse on the "open now" dot */
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.pulse-dot {
+  animation: pulse-soft 2.2s ease-in-out infinite;
+}
+
+/* Reviews carousel: a thin bar counting down to the next auto-advance */
+@keyframes progress-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.review-progress {
+  transform-origin: left;
+  animation: progress-fill 5s linear;
+}
+
+[data-reviews-region]:hover .review-progress,
+[data-reviews-region]:focus-within .review-progress {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .enter {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+
+  .hero-zoom {
+    animation: none;
+  }
+
+  .row-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .pulse-dot {
+    animation: none;
+  }
+}
+
+@media print {
+  header,
+  footer {
+    display: none !important;
+  }
+
+  .row-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
